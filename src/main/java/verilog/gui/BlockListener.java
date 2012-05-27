@@ -29,7 +29,7 @@ public class BlockListener implements Listener {
 			int gg=4;
 			gg=gg+1;
 			
-			block.pack();
+			//block.pack();
 			break;
 		case SWT.MouseDown:
 			block.setFocus();

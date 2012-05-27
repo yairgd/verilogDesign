@@ -6,10 +6,13 @@ package verilog.gui;
 import java.util.ResourceBundle;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
@@ -26,6 +29,7 @@ import org.eclipse.swt.widgets.Text;
 public final class Block extends Canvas {
 
 	// private Composite composite;
+	private Text text;
 	private static ResourceBundle verilogGui = ResourceBundle
 			.getBundle("verilog_gui");// "verilog/gui/verilog_gui");
 
@@ -52,9 +56,9 @@ public final class Block extends Canvas {
 	}
 
 	private void initBlockOutputs() {
+		Composite  composite =  new Composite(this,0);
+		
 		RowLayout rowLayout = new RowLayout();
-		// rowLayout.wrap = false;
-		// rowLayout.pack = false;
 		rowLayout.justify = true;
 		rowLayout.type = SWT.VERTICAL;
 		rowLayout.marginLeft = 0;
@@ -66,19 +70,20 @@ public final class Block extends Canvas {
 		// Optionally set layout fields.
 		// rowLayout.wrap = true;
 		// Set the layout into the composite.
-		this.setLayout(rowLayout);
+		composite.setLayout(rowLayout);
 		// Create the children of the composite.
 
 		new BlockOutput(this, 0);
 		new BlockOutput(this, 0);
 		 
-		
+		//this.moveAbove (composite);
 
 		// blockIORect.setLayout(layout)
 
 	}
 	
-	private void initBlockInputs( ) {
+	private void initBlockInputs(Composite pararent ) {
+		Composite  composite =  new Composite(pararent,0);
 		RowLayout rowLayout = new RowLayout();
 		// rowLayout.wrap = false;
 		// rowLayout.pack = false;
@@ -89,21 +94,28 @@ public final class Block extends Canvas {
 		rowLayout.marginRight = 5;
 		rowLayout.marginBottom = 5;
 		rowLayout.spacing = 10;
- 
+		
 		// Optionally set layout fields.
 		// rowLayout.wrap = true;
 		// Set the layout into the composite.
-		this.setLayout(rowLayout);
+		composite.setLayout(rowLayout);
 		// Create the children of the composite.
 
-		new BlockInput(this, 0);
-		new BlockInput(this, 0);
-		new BlockInput(this, 0);
-		new BlockInput(this, 0);
-		new BlockInput(this, 0);
-		 
+		/*  GridLayout gridLayout = new GridLayout();
+		    gridLayout.numColumns = 1;
+		    gridLayout.makeColumnsEqualWidth = true;
+		    composite.setLayout(gridLayout);*/
+		    
+		new BlockInput(composite, 0).init("in1");
+		 new BlockInput(composite, 0).init("in2");
+		// composite.pack();
+		/*new BlockInput(composite, 0);
+		new BlockInput(composite, 0);
+		new BlockInput(composite, 0);*/
 		
-
+		//composite.pack();
+		//pararent.pack();
+ 
 		// blockIORect.setLayout(layout)
 
 	}
@@ -117,29 +129,60 @@ public final class Block extends Canvas {
 		this.setMenu(menu);
 	}
 
+	private void initBlockName(String str,Composite parent) {
+		text = new Text(parent, 0);
+		text.setText(str);
+		text.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+			//	text.getParent().getParent().getParent().getParent().pack();
+ 
+				text.getParent().getParent().pack();
+				text.getParent().pack();
+				text.pack();
+				//pack(); // recalculate size
+			//	text.
+			}
+		});
+
+	}
+	
 	public void init(String tooltip, Point location) {
 
-		RowLayout rowLayout = new RowLayout();
+/*		RowLayout rowLayout = new RowLayout();
 		// rowLayout.wrap = false;
-		// rowLayout.pack = false;
+		 // rowLayout.pack = false;
+		
 		rowLayout.justify = true;
-		rowLayout.type = SWT.VERTICAL;
+		rowLayout.type = SWT.HORIZONTAL;
 		rowLayout.marginLeft = 0;
 		rowLayout.marginTop = 5;
 		rowLayout.marginRight = 5;
 		rowLayout.marginBottom = 5;
-		rowLayout.spacing = 10;
+		rowLayout.spacing = 10;*/
 		
+		  GridLayout gridLayout = new GridLayout();
+		    gridLayout.numColumns = 3;
+		    gridLayout.makeColumnsEqualWidth = true;
+		    
+		    
+		Composite parent = new Composite(this, 0);
+		//parent.setLayout(rowLayout);
+		parent.setLayout(gridLayout);
+		initBlockInputs(parent);
+		initBlockName("unit",parent);
+		initBlockInputs(parent);
 		
-		initBlockInputs();
-		
+		parent.pack();
 	//	rowLayout.se
-		//new Text("unit0").setLocation(location)
+		//new Text("unit0").settLocation(location)
+		//parent.pack();
 		pack();
-		
+	
+ 
+		// inputs.pack();
 		setToolTipText(tooltip);		
 		setLocation(location.x, location.y);
-		setBackground(getDisplay().getSystemColor(SWT.COLOR_RED));
+		parent.setBackground(getDisplay().getSystemColor(SWT.COLOR_RED));
 
 	}
 
