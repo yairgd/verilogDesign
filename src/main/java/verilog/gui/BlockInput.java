@@ -15,8 +15,10 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 public final class BlockInput extends Canvas {
@@ -80,11 +82,19 @@ public final class BlockInput extends Canvas {
 		
 		text.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				text.getParent().getParent().getParent().getParent().pack();
-				text.getParent().getParent().getParent().pack();
+				Control p=text;
+				while (true)
+				{
+					p=p.getParent();
+					if (p.getClass()==Shell.class)
+						break;
+					p.pack();
+				}
+				//text.getParent().getParent().getParent().getParent().pack();
+				/*text.getParent().getParent().getParent().pack();
 				text.getParent().getParent().pack();
 				text.getParent().pack();
-				text.pack();
+				text.pack();*/
 				//pack(); // recalculate size
 			//	text.
 			}

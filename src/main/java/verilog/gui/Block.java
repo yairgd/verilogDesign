@@ -16,6 +16,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -83,7 +84,7 @@ public final class Block extends Canvas {
 	}
 	
 	private void initBlockInputs(Composite pararent ) {
-		Composite  composite =  new Composite(pararent,0);
+		Composite  composite =  new Composite(this,0);
 		RowLayout rowLayout = new RowLayout();
 		// rowLayout.wrap = false;
 		// rowLayout.pack = false;
@@ -113,7 +114,7 @@ public final class Block extends Canvas {
 		new BlockInput(composite, 0);
 		new BlockInput(composite, 0);*/
 		
-		//composite.pack();
+	 	composite.pack();
 		//pararent.pack();
  
 		// blockIORect.setLayout(layout)
@@ -134,13 +135,14 @@ public final class Block extends Canvas {
 		text.setText(str);
 		text.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-			//	text.getParent().getParent().getParent().getParent().pack();
- 
-				text.getParent().getParent().pack();
-				text.getParent().pack();
-				text.pack();
-				//pack(); // recalculate size
-			//	text.
+				Control p=text;
+				while (true)
+				{
+					p=p.getParent();
+					if (p.getClass()==Shell.class)
+						break;
+					p.pack();
+				}
 			}
 		});
 
@@ -148,7 +150,7 @@ public final class Block extends Canvas {
 	
 	public void init(String tooltip, Point location) {
 
-/*		RowLayout rowLayout = new RowLayout();
+		RowLayout rowLayout = new RowLayout();
 		// rowLayout.wrap = false;
 		 // rowLayout.pack = false;
 		
@@ -158,31 +160,44 @@ public final class Block extends Canvas {
 		rowLayout.marginTop = 5;
 		rowLayout.marginRight = 5;
 		rowLayout.marginBottom = 5;
-		rowLayout.spacing = 10;*/
+		rowLayout.spacing = 10;
 		
-		  GridLayout gridLayout = new GridLayout();
+		 /* GridLayout gridLayout = new GridLayout();
 		    gridLayout.numColumns = 3;
-		    gridLayout.makeColumnsEqualWidth = true;
+		    gridLayout.makeColumnsEqualWidth = true;*/
 		    
 		    
-		Composite parent = new Composite(this, 0);
+	///	Composite parent = new Composite(this, 0);
 		//parent.setLayout(rowLayout);
-		parent.setLayout(gridLayout);
-		initBlockInputs(parent);
-		initBlockName("unit",parent);
-		initBlockInputs(parent);
-		
-		parent.pack();
+	///	parent.setLayout(gridLayout);
+		this.setLayout(rowLayout);
+		initBlockInputs(this);
+		initBlockName("unit",this);
+		initBlockInputs(this);
+		this.pack();
+	//	this.setSize(150,150);
+		;
 	//	rowLayout.se
 		//new Text("unit0").settLocation(location)
 		//parent.pack();
-		pack();
+	//	pack();
 	
- 
+/* Control []crt =  this.getChildren();
+ for (int i=0;i<crt.length;i++)
+ {
+	 crt[i].pack();
+	 Control []crt1 = ((Composite) crt[i]).getChildren();
+	 for (int j=0;j<crt1.length;j++)
+	 {
+		 crt1[j].pack();
+	 }
+ }
+ pack();
+ getParent().pack();*/
 		// inputs.pack();
 		setToolTipText(tooltip);		
 		setLocation(location.x, location.y);
-		parent.setBackground(getDisplay().getSystemColor(SWT.COLOR_RED));
+		this.setBackground(getDisplay().getSystemColor(SWT.COLOR_RED));
 
 	}
 
@@ -204,6 +219,8 @@ public final class Block extends Canvas {
 
 		new BlockInput(shell, 0);
 
+		
+		
 		while (!shell.isDisposed()) {
 			display.readAndDispatch();
 			/*if (!display.readAndDispatch())
