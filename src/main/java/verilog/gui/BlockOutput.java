@@ -5,48 +5,68 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class BlockOutput extends Canvas {
+public class BlockOutput extends Composite {
 
 	private Text text;
 	public BlockOutput(Composite parent, int style) {
 		super(parent, style);
+		  
+        
 		//setSize(new Point (50,50));
-		init();
+		 
 		// TODO Auto-generated constructor stub
 	}
 
-	private void init() {
+	public void init(String ioName) {
 		RowLayout rowLayout = new RowLayout();
 		//rowLayout.wrap = false;
 	//	rowLayout.pack = false;
 		rowLayout.justify = true;
 		rowLayout.type = SWT.HORIZONTAL;
 		rowLayout.marginLeft = 0;
-		rowLayout.marginTop = 5;
-		rowLayout.marginRight = 5;
-		rowLayout.marginBottom = 5;
-		rowLayout.spacing = 5;
+		rowLayout.marginTop = 0;
+		rowLayout.marginRight = 0;
+		rowLayout.marginBottom = 0;
+		rowLayout.spacing = 0;
         // Optionally set layout fields.
 		//rowLayout.wrap = true;
         // Set the layout into the composite.
         this.setLayout(rowLayout);
         // Create the children of the composite.
         
-        
-        initText();
+        GridLayout gridLayout = new GridLayout();
+	    gridLayout.numColumns = 2;
+	    gridLayout.makeColumnsEqualWidth = true;
+ 
+	 //   setLayout(gridLayout);
+	    
+	    
+	    initText(ioName);
         BlockIORect blockIORect =  new BlockIORect(this,0);
+        blockIORect.setLayoutData(new RowData(15, 15));
+        
         
       //  blockIORect.setLayout(layout)
         
         		 
-        blockIORect.setLayoutData(new RowData(15, 15));
+       /* GridLayout gridLayout = new GridLayout();
+	    gridLayout.numColumns = 1;
+	    gridLayout.makeColumnsEqualWidth = true;
+	    composite.setLayout(gridLayout);*/
         
        
        // this.pack();
@@ -60,14 +80,28 @@ public class BlockOutput extends Canvas {
 			}
 		});
 	}
+	 
 	
-	private void initText() {
+	private void initText(String ioName) {
 		text = new Text(this, 0);
-		text.setText("test");
+		text.setText(ioName);
+		FontData[] fD = text.getFont().getFontData();
+		fD[0].setHeight(8);
+		fD[0].setStyle(SWT.NORMAL);
+		text.setFont( new Font(this.getDisplay(),fD[0]));
+
+		
 		text.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				pack(); // recalculate size
-			//	text.
+				Control p=text;
+				while (true)
+				{
+					p=p.getParent();
+					if (p.getClass()==Shell.class)
+						break;
+					p.pack();
+				}
+
 			}
 		});
 

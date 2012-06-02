@@ -2,19 +2,20 @@ package verilog.gui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 public class BlockListener implements Listener {
 
-	public Block getBlock() {
+	public Composite getBlock() {
 		return block;
 	}
 
 
-	private Block block;
+	private Composite block;
 	private Point origin;
-	public BlockListener(Block block) {
+	public BlockListener(Composite block) {
 		this.block = block;
 		block.addListener(SWT.MouseEnter, this);
 		block.addListener(SWT.MouseDown, this);
@@ -24,6 +25,7 @@ public class BlockListener implements Listener {
 	}
 
 	public void handleEvent(Event e) {
+		Composite block = this.block.getParent();
 		switch (e.type) {
 		case SWT.MouseEnter:
 			int gg=4;

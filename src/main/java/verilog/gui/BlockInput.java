@@ -11,6 +11,7 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Canvas;
@@ -39,23 +40,34 @@ public final class BlockInput extends Canvas {
 		rowLayout.justify = true;
 		rowLayout.type = SWT.HORIZONTAL;
 		rowLayout.marginLeft = 0;
-		rowLayout.marginTop = 5;
-		rowLayout.marginRight = 5;
-		rowLayout.marginBottom = 5;
-		rowLayout.spacing = 5;
+		rowLayout.marginTop = 0;
+		rowLayout.marginRight = 0;
+		rowLayout.marginBottom = 0;
+		rowLayout.spacing = 0;
         // Optionally set layout fields.
 		//rowLayout.wrap = true;
         // Set the layout into the composite.
         this.setLayout(rowLayout);
         // Create the children of the composite.
         
+        GridLayout gridLayout = new GridLayout();
+	    gridLayout.numColumns = 2;
+	    gridLayout.makeColumnsEqualWidth = true;
+ 
+	 //   setLayout(gridLayout);
+	    
+	    
+	    
         BlockIORect blockIORect =  new BlockIORect(this,0);
         blockIORect.setLayoutData(new RowData(15, 15));
         initText(ioName);
       //  blockIORect.setLayout(layout)
         
         		 
-        
+       /* GridLayout gridLayout = new GridLayout();
+	    gridLayout.numColumns = 1;
+	    gridLayout.makeColumnsEqualWidth = true;
+	    composite.setLayout(gridLayout);*/
         
        
        // this.pack();
@@ -90,13 +102,7 @@ public final class BlockInput extends Canvas {
 						break;
 					p.pack();
 				}
-				//text.getParent().getParent().getParent().getParent().pack();
-				/*text.getParent().getParent().getParent().pack();
-				text.getParent().getParent().pack();
-				text.getParent().pack();
-				text.pack();*/
-				//pack(); // recalculate size
-			//	text.
+
 			}
 		});
 
