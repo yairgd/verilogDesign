@@ -20,6 +20,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
@@ -271,7 +272,12 @@ class BlockIORect extends Canvas {
 
 	// Math.sqrt( (p3.x-p.x)*(p3.x-p.x)+(p3.y-p.y)*(p3.y-p.y) )<10
 
-	// System.out.printf("%d %d %d \n", pp1.x,p.x,this.getCenter().x);
+	System.out.printf("%d %d %d \n", pp1.x,pp2.x,this.getCenter().x);
+	
+	GC  gc=new GC(getDisplay());
+	gc.drawRectangle(new Rectangle(pp2.x, pp2.y,  getClientArea().width,  getClientArea().height));
+	
+	
 	if (pp2.x >= pp0.x && pp2.y >= pp0.y
 		&& pp2.x < pp0.x + getClientArea().width
 		&& pp2.y < pp0.y + getClientArea().height)
@@ -387,12 +393,13 @@ class BlockIORectListener implements Listener {
 	ioblock.getBlock().getLineList().addLine(line1, "undefined");
 	ioblock.setLineConnection(new LineConnection(line1, ConectionPoint.P1));
 	ioblock.getBlock().getLineList().setCurLine(line1);
+	ioblock.getBlock().getLineList().paint();
 	//((Line) line1).getLineListener().prepareLineMove(pp);// new Point(e.x,
 							     // e.y));
 	
 	
 	iostatus = IOStatus.LineDrags;
-	ioblock.getBlock().getLineList().paint();
+	
     }
 
     public void handleEvent(Event e) {

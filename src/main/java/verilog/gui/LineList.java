@@ -23,6 +23,7 @@ public class LineList {
 
 	private Shell shell;
 	private ArrayList<Line> lineList = new ArrayList<Line>();
+	private ArrayList<Block1> blockList = new ArrayList<Block1>();
 	private Line curLine;
 	/**
 	 * @return the curLine
