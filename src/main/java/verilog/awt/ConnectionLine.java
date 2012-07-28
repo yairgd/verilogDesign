@@ -1,12 +1,7 @@
 package verilog.awt;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.geom.Line2D;
-import java.util.ArrayList;
 
 public class ConnectionLine extends verilog.awt.ShapeList {
    // private final ArrayList<ConectionPoint> points = new ArrayList<ConectionPoint>();
@@ -15,17 +10,17 @@ public class ConnectionLine extends verilog.awt.ShapeList {
     private int r=6;
     private Point p1,p2;
 
-     void move(double deltaX,double deltaY)
+    /* void move(double deltaX,double deltaY)
     {
 	p1.x -= deltaX;
 	p1.y -= deltaY;
 	p2.x -= deltaX;
 	p2.y -= deltaY;
-	/*for (final ConectionPoint r : points) {
+	for (final ConectionPoint r : points) {
 	    r.getPoint().x -= deltaX;
 	    r.getPoint().y -= deltaY;
-	}*/
-    }
+	}
+    }*/
     
     public ConnectionLine(Point p1,Point p2) {
 	this.p1 = p1;
@@ -68,7 +63,7 @@ public class ConnectionLine extends verilog.awt.ShapeList {
 	}
     }
     
-    boolean mousePressed(Event e) {
+/*    boolean mousePressed(Event e) {
 	prevMouseLocation.x = e.getPoint().x;
 	    prevMouseLocation.y = e.getPoint().y;
 	//for (final ConectionPoint r : points) {
@@ -106,19 +101,19 @@ public class ConnectionLine extends verilog.awt.ShapeList {
 	}
 	return b;
 
-	/*
+	
 	 * //connectionLineStatus=ConnectionLineStatus.Idle; shapeStatus =
 	 * ShapeStatus.Idle; if (curPoint!=null) { //
 	 * curPoint.setConnectionPointStatus(ConnectionPointStatus.Idle);
 	 * curPoint.setShapeStatus(ShapeStatus.Idle); curPoint=null; }
-	 */
+	 
     }
-    
+    */
     
     public void mouseDragged(Point e) {
 
-	move((prevMouseLocation.x - e.getX()),
-		(prevMouseLocation.y - e.getY()));
+	/*move((prevMouseLocation.x - e.getX()),
+		(prevMouseLocation.y - e.getY()));*/
 	//for (final ConectionPoint r : points) {
 	for (final Shape r : shapes) {
 	    r.mouseDragged(e);
@@ -139,7 +134,7 @@ public class ConnectionLine extends verilog.awt.ShapeList {
     
  
     
-    public void paint(Graphics g)
+   /* public void paint(Graphics g)
     {
 	Graphics2D ga = (Graphics2D) g;
 	Line2D line2d = new Line2D.Float(p1, p2);
@@ -153,5 +148,5 @@ public class ConnectionLine extends verilog.awt.ShapeList {
 	for (final Shape r : shapes) {
             r.paint(g);
         }
-    }
+    }*/
 }

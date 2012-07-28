@@ -1,11 +1,12 @@
 package verilog.awt;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
-import java.util.ArrayList;
 
  
 public class ConectionPoint extends verilog.awt.Shape {// implements Cloneable{
@@ -16,6 +17,9 @@ public class ConectionPoint extends verilog.awt.Shape {// implements Cloneable{
     private ConectionPointStyle connectionPointStyle; 
     private boolean MoveAble;
    
+    private Color fillColor  = Color.GREEN;
+    private Color edgeColor = Color.BLACK;
+    private int edgeWidh =1;
 
 
     /**
@@ -51,7 +55,7 @@ public class ConectionPoint extends verilog.awt.Shape {// implements Cloneable{
 	Circle,Visile
     };
 
-    public final Point point;
+    public Point point;
     /**
      * @return the point
      */
@@ -59,6 +63,9 @@ public class ConectionPoint extends verilog.awt.Shape {// implements Cloneable{
         return point;
     }
 
+    public void setPoint(Point point) {
+        this.point =  point;
+    }
     
     /**
      * @return the connectionPointStyle
@@ -82,7 +89,7 @@ public class ConectionPoint extends verilog.awt.Shape {// implements Cloneable{
 	MoveAble = true;
     }*/
 
-    public ConectionPoint(Point P,Object father) {
+    public ConectionPoint(Point P,verilog.awt.Shape father) {
   	point = P;
   	//connectionPointStatus = ConnectionPointStatus.Idle;
   	shapeStatus = ShapeStatus.Idle;
@@ -105,9 +112,15 @@ public class ConectionPoint extends verilog.awt.Shape {// implements Cloneable{
     }*/
 
     public void paint(Graphics g) {
+	Graphics2D ga = (Graphics2D) g;
+	BasicStroke bs2 = new BasicStroke(edgeWidh);//  (2, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_ROUND, 1.0f, dash2,15f);
+	ga.setStroke(bs2);    
+
+	
 	if  (connectionPointStyle==ConectionPointStyle.Circle)
 	{
-	    Graphics2D ga = (Graphics2D) g;
+	    
+	    g.setColor(edgeColor);
 	    Shape circ1 = new Ellipse2D.Float(point.x - r / 2, point.y - r / 2, r, r);
 	    ga.draw(circ1);
 	}

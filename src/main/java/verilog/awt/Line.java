@@ -84,7 +84,10 @@ class Section extends verilog.awt.ShapeList {
     boolean mousePressed(Event event) {
 	ConectionPoint P1 = (ConectionPoint)shapes.get(0);
 	ConectionPoint P2 = (ConectionPoint)shapes.get(1);
-        if (!P1.mousePressed(event) && !P2.mousePressed(event)) {
+	
+	boolean b1 = P1.mousePressed(event);
+	boolean b2 = P2.mousePressed(event);
+        if (!b1 && !b2) {
 	    if (inLine(event.getPoint().getX(), event.getPoint().getY())) {
 		// sectionStatus = SectionStatus.Line_Move;
 		shapeStatus = ShapeStatus.Move;
@@ -95,7 +98,12 @@ class Section extends verilog.awt.ShapeList {
 	    }
 
 	}
-	return false;
+       /* if (P1.getShapeStatus()==ShapeStatus.Move || P2.getShapeStatus()==ShapeStatus.Move)
+            return true;*/
+        if (b1||b2)
+            shapeStatus = ShapeStatus.Move;
+        
+	return b1||b2;
 
     }
 
@@ -117,11 +125,14 @@ class Section extends verilog.awt.ShapeList {
 	    // remove object from connection point fathers
 	//    P1.getDataList().remove(this);
 	    P1 = new ConectionPoint(new Point(P1.getPoint().x,P1.getPoint().y),this);
+	    
+	 //   P1.setPoint(new Point(P1.getPoint().x,P1.getPoint().y));
 	}
 	if (!P2.isMoveAble())
 	{
 	//    P2.getDataList().remove(this);
 	    P2 = new ConectionPoint(new Point(P2.getPoint().x,P2.getPoint().y),this);
+	//    P2.setPoint(new Point(P2.getPoint().x,P2.getPoint().y));
 	}
 	
 	P1.getPoint().x -= (prevMouseLocation.x - e.getX());
@@ -140,15 +151,16 @@ class Section extends verilog.awt.ShapeList {
     {
 	ConectionPoint P1 = (ConectionPoint)shapes.get(0);
 	ConectionPoint P2 = (ConectionPoint)shapes.get(1);
-	boolean b1,b2;
+	boolean b1,b2,b3;
 	b1=P1.mouseReleased(event);
 	b2=P2.mouseReleased(event);
+	b3=inLine(event.getPoint().getX(), event.getPoint().getY());
 	shapeStatus = ShapeStatus.Idle;
-	if (b1||b2)
+	if (b1||b2||b3)
 	{
 	 event.addAffectedShade(this);
 	}
-	 return b1||b2;
+	 return b1||b2||b3;
     }
 
     @Override
@@ -193,7 +205,8 @@ public class Line extends verilog.awt.ShapeList {
 	
 	
 	Section section = (Section) (shapes.get(shapes.size() - 1));
-	p.setFather(section);
+	//if (p.isMoveAble())
+	    p.setFather(section);
 	if (section.getP1() == null)
 	    section.setP1(p) ;
 	else if (section.getP2() == null)
@@ -202,7 +215,7 @@ public class Line extends verilog.awt.ShapeList {
 	    ConectionPoint p1 = section.getP2();
 	    ConectionPoint p2 = p;
 	    shapes.add(new Section(p1, p2));
-	    p2.setFather(section);
+	  //  p2.setFather(section);
 	}
 
     }

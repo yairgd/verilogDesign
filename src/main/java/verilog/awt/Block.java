@@ -1,5 +1,8 @@
 package verilog.awt;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 
 public class Block extends Polygon{
@@ -14,6 +17,16 @@ public class Block extends Polygon{
         return size;
     }
 
+    public void paint(Graphics g) 
+    {
+	// g.setColor(Color.BLACK);
+	// BasicStroke bs2 = new BasicStroke(1);//  (2, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_ROUND, 1.0f, dash2,15f);
+	//    ga.setColor(Color.RED);
+	    //BasicStroke ff=new BasicStroke(
+	//    ga.setStroke(bs2);
+	    
+	 super.paint(g);
+    }
     /**
      * @param size the size to set
      */
@@ -55,12 +68,8 @@ public class Block extends Polygon{
 	polygon.addPoint(p1.x, p1.y);
     }
 
-    @Override
-    void move(double deltaX, double deltaY) {
-	// TODO Auto-generated method stub
-	
-    }
-
+ 
+ 
 
     
      

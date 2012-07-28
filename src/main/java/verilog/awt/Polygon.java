@@ -1,6 +1,9 @@
 package verilog.awt;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -17,6 +20,24 @@ public abstract class Polygon extends Shape {
     private ConnectionLine curConnectionLine = null;
 
    
+    
+    private Color fillColor  = Color.GREEN;
+    private Color edgeColor = Color.BLACK;
+    private int edgeWidh =2;
+    /**
+     * @return the fillColor
+     */
+    public  Color getFillColor() {
+        return fillColor;
+    }
+
+    /**
+     * @param fillColor the fillColor to set
+     */
+    public  void setFillColor(Color fillColor) {
+        this.fillColor = fillColor;
+    }
+
     /**
      * @return the polygonLineType
      */
@@ -33,7 +54,13 @@ public abstract class Polygon extends Shape {
     }
 
     public void paint(Graphics g) {
+	Graphics2D ga = (Graphics2D) g;
+	BasicStroke bs2 = new BasicStroke(edgeWidh);//  (2, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_ROUND, 1.0f, dash2,15f);
+	ga.setStroke(bs2);    
+	g.setColor(edgeColor);
 	g.drawPolygon(polygon);
+	g.setColor(fillColor);
+	g.fillPolygon (polygon);
 
 	for (final ConnectionLine connectionLine : listConnectionLine) {
 	    connectionLine.paint(g);
@@ -60,10 +87,11 @@ public abstract class Polygon extends Shape {
 	    }
 	
 	    for (final ConnectionLine connectionLine : listConnectionLine) {
-		/*connectionLine.move((prevMouseLocation.x - e.getX()),
-			(prevMouseLocation.y - e.getY()));*/
+		connectionLine.move((prevMouseLocation.x - e.getX()),
+			(prevMouseLocation.y - e.getY()));
 		 
 		connectionLine.mouseDragged(e);
+		
 
 	    }
 
@@ -136,5 +164,12 @@ public abstract class Polygon extends Shape {
 
     }
 
+    @Override
+    void move(double deltaX, double deltaY) {
+	// TODO Auto-generated method stub
+	//listConnectionLine.move(3,3)
+    }
+    
+ 
     public abstract void init();
 }
