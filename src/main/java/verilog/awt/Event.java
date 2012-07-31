@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import verilog.awt.Shape.ShapeStatus;
 
 public class Event {
+	public java.awt.event.MouseEvent  mouseEvent;
     private Point point = new Point();
  //   private ConnectionPointStatus prevConnectionPointStatus;
     private ShapeStatus prevShapeStatusStatus;

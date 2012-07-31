@@ -1,13 +1,82 @@
 package verilog.awt;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.border.BevelBorder;
+
+class BlockCopy implements ActionListener {
+
+	Block block;
+	BlockCopy (Block block)
+	{
+		this.block = block;
+	}
+	public void actionPerformed(ActionEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
+}
+
+class BlockPaste implements ActionListener {
+
+	Block block;
+	BlockPaste (Block block)
+	{
+		this.block = block;
+	}
+	public void actionPerformed(ActionEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
+}
+
+class BlockCut implements ActionListener {
+
+	Block block;
+	BlockCut (Block block)
+	{
+		this.block = block;
+	}
+	public void actionPerformed(ActionEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
+}
+
+class BlockDelete implements ActionListener {
+
+	Block block;
+	BlockDelete (Block block)
+	{
+		this.block = block;
+	}
+	public void actionPerformed(ActionEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
+}
 
 public class Block extends Polygon{
     
-    private Point locaion;
+    Block(Model model)
+	{
+		super(model);
+		// TODO Auto-generated constructor stub
+	}
+
+	private Point locaion;
     private Point size;
 
     /**
@@ -17,16 +86,6 @@ public class Block extends Polygon{
         return size;
     }
 
-    public void paint(Graphics g) 
-    {
-	// g.setColor(Color.BLACK);
-	// BasicStroke bs2 = new BasicStroke(1);//  (2, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_ROUND, 1.0f, dash2,15f);
-	//    ga.setColor(Color.RED);
-	    //BasicStroke ff=new BasicStroke(
-	//    ga.setStroke(bs2);
-	    
-	 super.paint(g);
-    }
     /**
      * @param size the size to set
      */
@@ -49,29 +108,65 @@ public class Block extends Polygon{
         this.locaion = locaion;
     }
 
-    @Override
-    public void init() {
-	// TODO Auto-generated method stub
-	Point p1 = new Point(locaion.x,locaion.y);
-	Point p2 = new Point(locaion.x+size.x,locaion.y);
-	Point p3 = new Point(locaion.x+size.x,locaion.y+size.y);
-	Point p4 = new Point(locaion.x,locaion.y+size.y);
-	ConnectionLine cl1 = new ConnectionLine(p1, p4);
-	listConnectionLine.add(cl1);
-	ConnectionLine cl2 = new ConnectionLine(p3, p2);
-	listConnectionLine.add(cl2);
+	@Override
+	public void init()
+	{
+		// TODO Auto-generated method stub
+		Point p1 = new Point(locaion.x, locaion.y);
+		Point p2 = new Point(locaion.x + size.x, locaion.y);
+		Point p3 = new Point(locaion.x + size.x, locaion.y + size.y);
+		Point p4 = new Point(locaion.x, locaion.y + size.y);
+		ConnectionLine cl1 = new ConnectionLine(p1, p4);
+		listConnectionLine.add(cl1);
+		ConnectionLine cl2 = new ConnectionLine(p3, p2);
+		listConnectionLine.add(cl2);
+
+		polygon.addPoint(p1.x, p1.y);
+		polygon.addPoint(p2.x, p2.y);
+		polygon.addPoint(p3.x, p3.y);
+		polygon.addPoint(p4.x, p4.y);
+		polygon.addPoint(p1.x, p1.y);
+		
+	}
+ 
+	@Override
+	public JPopupMenu getPopupMenu( )
+	{
+		JMenuItem mi;
+
+		JPopupMenu popup = new JPopupMenu("Edit");
+
+		mi = new JMenuItem(verilogGui.getString("menu_copy"));
+		mi.addActionListener(new BlockCopy(this));
+		popup.add(mi);
+		
+		mi = new JMenuItem(verilogGui.getString("menu_paste"));
+		mi.addActionListener(new BlockPaste(this));
+		popup.add(mi);
+		
+		mi = new JMenuItem(verilogGui.getString("menu_cut"));
+		mi.addActionListener(new BlockCut(this));
+		popup.add(mi);
+		
+		mi = new JMenuItem(verilogGui.getString("menu_delete"));
+		mi.addActionListener(new BlockDelete(this));
+		popup.add(mi);
+		
+
+		popup.addSeparator();
+		mi = new JMenuItem(verilogGui.getString("menu_properties"));
+		mi.addActionListener(new BlockDelete(this));
+		popup.add(mi);
 	
-	polygon.addPoint(p1.x, p1.y);
-	polygon.addPoint(p2.x, p2.y);
-	polygon.addPoint(p3.x, p3.y);
-	polygon.addPoint(p4.x, p4.y);
-	polygon.addPoint(p1.x, p1.y);
-    }
+		popup.setBorderPainted(true);
+		popup.setBorder(new BevelBorder(BevelBorder.RAISED));
+		
+		return popup;
+
+	}
+
 
  
- 
-
-    
      
     
 }
