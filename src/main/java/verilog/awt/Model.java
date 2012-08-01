@@ -11,6 +11,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.swing.ButtonGroup;
@@ -44,6 +45,25 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 	// ConnectionLine connectionLine = new ConnectionLine(new Point (120,260),
 	// new Point (300,400));
 	private static ResourceBundle	verilogGui			= ResourceBundle.getBundle("verilog_gui");
+
+	private ArrayList<Shape>		focusList			= new ArrayList<Shape>();
+
+	/**
+	 * @return the focusList
+	 */
+	public synchronized ArrayList<Shape> getFocusList()
+	{
+		return focusList;
+	}
+
+	/**
+	 * @param focusList
+	 *            the focusList to set
+	 */
+	public synchronized void setFocusList(ArrayList<Shape> focusList)
+	{
+		this.focusList = focusList;
+	}
 
 	// "verilog/gui/verilog_gui");
 
@@ -219,23 +239,15 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 	@Override
 	public void paint(Graphics g)
 	{
-
-		// super.repaint();
-
 		g.clearRect(0, 0, this.getWidth(), this.getHeight());
-		// setBackground(Color.GREEN);
-		//
 		shapeList.paint(g);
-
 	}
 
 	public void mouseDragged(java.awt.event.MouseEvent e)
 	{
-
 		p.x = e.getX();
 		p.y = e.getY();
 		shapeList.mouseDragged(p);
-
 		this.repaint();
 
 	}
@@ -266,13 +278,38 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 	public void mousePressed(java.awt.event.MouseEvent e)
 	{
 
+		boolean b = false;
 		if (e.isPopupTrigger())
 		{
-			popup.show(e.getComponent(), e.getX(), e.getY());
-		}
+			for (Shape shape : shapeList.shapes)
+			{
+				if (shape instanceof Polygon)
+				{
+					JPopupMenu pm = ((Polygon) shape).getPopupMenu();
+					if (pm != null && ((Polygon) shape).isInside(e.getPoint()))
+					{
+						pm.show(e.getComponent(), e.getX(), e.getY());
+						b = true;
+						break;
+					}
+				}
+			}
+			if (!b)
+			{
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
 
+		}
 		if (e.getButton() == 1)
 		{
+			if (!e.isControlDown())
+			{
+				for (Shape shape : focusList)
+				{
+					shape.setFocus(false);
+				}
+				focusList.clear();
+			}
 			event.getPoint().x = e.getX();
 			event.getPoint().y = e.getY();
 
@@ -282,9 +319,6 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 
 			if (shapeList.mousePressed(event))
 			{
-				// for (ConectionPoint conectionPoint :
-				// event.getConectionPointList()) {
-
 				if (event.geteffectedShapes().size() > 0)
 				{
 
@@ -294,7 +328,7 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 
 						ConectionPoint p1 = new ConectionPoint(new Point(conectionPoint.getPoint().x, conectionPoint.getPoint().y), null);
 
-						Line line = new Line();
+						Line line = new Line(this);
 						line.addPoint(p1);
 						line.addPoint(conectionPoint);
 						addShape(line);
@@ -303,16 +337,32 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 						event.clearAffectedShade();
 					}
 				}
+				for (Shape shape : focusList)
+				{
+					shape.setFocus(true);
+					
+				}
 			}
 			else
 			{
-				Line line = new Line();
+				Line line = new Line(this);
 				line.addPoint(new Point(event.getPoint().x, event.getPoint().y));
 				line.addPoint(new Point(event.getPoint().x, event.getPoint().y));
 				addShape(line);
 				shapeList.mousePressed(event);
+
+				// make line focus
+				for (Shape shape : focusList)
+				{
+					shape.setFocus(false);
+				}
+				focusList.clear();
+				getFocusList().clear();
+				getFocusList().add(line);
+				line.setFocus(true);
 			}
 		}
+		this.repaint();
 	}
 
 	public void mouseReleased(java.awt.event.MouseEvent e)
@@ -322,17 +372,20 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 		event.getPoint().x = e.getX();
 		event.getPoint().y = e.getY();
 
-		boolean b= false;
+		boolean b = false;
 		if (e.isPopupTrigger())
 		{
 			for (Shape shape : shapeList.shapes)
 			{
-				JPopupMenu pm = ((Polygon) shape).getPopupMenu();
-				if (shape instanceof Polygon && pm != null && ((Polygon) shape).isInside(event.getPoint()))
+				if (shape instanceof Polygon)
 				{
-					pm.show(e.getComponent(), e.getX(), e.getY());
-					b=true;
-					break;
+					JPopupMenu pm = ((Polygon) shape).getPopupMenu();
+					if (pm != null && ((Polygon) shape).isInside(event.getPoint()))
+					{
+						pm.show(e.getComponent(), e.getX(), e.getY());
+						b = true;
+						break;
+					}
 				}
 			}
 			if (!b)
@@ -413,6 +466,17 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 			block.init();
 			block.setFillColor(Color.MAGENTA);
 			this.addShape(block);
+
+			// make shape focus
+			for (Shape shape : focusList)
+			{
+				shape.setFocus(false);
+			}
+			focusList.clear();
+			getFocusList().clear();
+			getFocusList().add(block);
+			block.setFocus(true);
+
 			// perform cut operation
 		}
 		else if (command.equals("Copy"))
@@ -424,6 +488,7 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 			// perform paste operation
 		}
 		repaint();
+
 	}
 
 	public void itemStateChanged(ItemEvent e)
@@ -443,16 +508,7 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 		// Create an instance of the test application
 		Model mainFrame = new Model();
 		mainFrame.setVisible(true);
-		/*
-		 * Line line1 = new Line(); line1.addPoint(new Point (10,100));
-		 * line1.addPoint(new Point (500,100)); line1.addPoint(new Point
-		 * (300,200)); line1.addPoint(new Point (100,230));
-		 * mainFrame.addShape(line1);
-		 * 
-		 * Line line2 = new Line(); line2.addPoint(new Point (50,100));
-		 * line2.addPoint(new Point (470,300)); mainFrame.addShape(line2);
-		 */
-
+		
 		Block block1 = new Block(mainFrame);
 		block1.setLocaion(new Point(300, 300));
 		block1.setSize(new Point(100, 100));
@@ -468,7 +524,7 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 
 		JFrame aWindow = new JFrame();
 		/*
-		 * ModelPopupMenu demo = new ModelPopupMenu();
+		 * / ModelPopupMenu demo = new ModelPopupMenu();
 		 * aWindow.setJMenuBar(demo.createMenuBar());
 		 * aWindow.setContentPane(demo.createContentPane());
 		 */

@@ -12,6 +12,24 @@ public abstract class Shape {
 	Idle, Move
     };
     
+    private boolean focus;
+
+    /**
+	 * @return the focus
+	 */
+	public synchronized boolean isFocus()
+	{
+		return focus;
+	}
+
+	/**
+	 * @param focus the focus to set
+	 */
+	public synchronized void setFocus(boolean focus)
+	{
+		this.focus = focus;
+	}
+	
     protected Object father;
 
     /**
@@ -39,22 +57,6 @@ public abstract class Shape {
 
 
 
-
-  /*  *//**
-     * @return the dataList
-     *//*
-    public ArrayList<Object> getDataList() {
-        return dataList;
-    }
-
-
-    *//**
-     * @param dataList the dataList to set
-     *//*
-    public void setDataList(ArrayList<Object> dataList) {
-        this.dataList = dataList;
-    }
-    */
     /**
      * @return the shapeStatus
      */
@@ -77,9 +79,6 @@ public abstract class Shape {
     abstract boolean mousePressed(Event event);
 
     abstract boolean mouseReleased(Event event);
-    
-      abstract void move(double deltaX,double deltaY);
-    //  abstract Shape getPoint(int n);
-   //   abstract void setPoint(Shape shape,int n);
+ 
 
 }

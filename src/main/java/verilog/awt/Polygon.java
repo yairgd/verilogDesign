@@ -5,11 +5,68 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javax.swing.JPopupMenu;
+
+class BlockCopy implements ActionListener
+{
+
+	Polygon	polygon;
+
+	BlockCopy(Polygon polygon)
+	{
+		this.polygon = polygon;
+	}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		// TODO Auto-generated method stub
+		// polygon.model.getFocusList().add(polygon);
+
+	}
+
+}
+
+class BlockCut implements ActionListener
+{
+
+	Polygon	shape;
+
+	BlockCut(Polygon shape)
+	{
+		this.shape = shape;
+	}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+}
+
+class BlockDelete implements ActionListener
+{
+
+	Polygon	shape;
+
+	BlockDelete(Polygon shape)
+	{
+		this.shape = shape;
+	}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+}
+
 
 public abstract class Polygon extends Shape
 {
@@ -74,7 +131,12 @@ public abstract class Polygon extends Shape
 	public void paint(Graphics g)
 	{
 		Graphics2D ga = (Graphics2D) g;
-		BasicStroke bs2 = new BasicStroke(edgeWidh);// (2,
+		int n;
+		if (isFocus())
+			n=5;
+		else
+			n=2;
+		BasicStroke bs2 = new BasicStroke(n);// (2,
 													// BasicStroke.JOIN_ROUND,
 													// BasicStroke.JOIN_ROUND,
 													// 1.0f, dash2,15f);
@@ -121,7 +183,7 @@ public abstract class Polygon extends Shape
 
 			for (final ConnectionLine connectionLine : listConnectionLine)
 			{
-				connectionLine.move((prevMouseLocation.x - e.getX()), (prevMouseLocation.y - e.getY()));
+				//connectionLine.move((prevMouseLocation.x - e.getX()), (prevMouseLocation.y - e.getY()));
 
 				connectionLine.mouseDragged(e);
 
@@ -144,6 +206,8 @@ public abstract class Polygon extends Shape
 			if (connectionLine.mousePressed(event))
 			{
 				curConnectionLine = connectionLine;
+				 model.getFocusList().add(this);
+				 model.shapeList.setCurShape(this);
 				return true;
 			}
 
@@ -160,6 +224,8 @@ public abstract class Polygon extends Shape
 			shapeStatus = ShapeStatus.Move;
 			prevMouseLocation.x = event.getPoint().x;
 			prevMouseLocation.y = event.getPoint().y;
+			model.getFocusList().add(this);
+			model.shapeList.setCurShape(this);
 			return true;
 		}
 		return false;
@@ -191,21 +257,11 @@ public abstract class Polygon extends Shape
 		}
 
 		return b;
-
-		/*
-		 * //polygonStatus = PolygonStatus.Idle; shapeStatus = ShapeStatus.Idle;
-		 * if (curConnectionLine != null) {
-		 * curConnectionLine.mouseReleased(event); curConnectionLine = null; }
-		 */
+ 
 
 	}
 
-	@Override
-	void move(double deltaX, double deltaY)
-	{
-		// TODO Auto-generated method stub
-		// listConnectionLine.move(3,3)
-	}
+ 
 
 	public JPopupMenu getPopupMenu()
 	{

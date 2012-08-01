@@ -9,14 +9,11 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
 public class ConectionPoint extends verilog.awt.Shape
-{// implements Cloneable{
+{ 
 
 	public int					r			= 6;
-
-	// private ConnectionPointStatus connectionPointStatus;
 	private ConectionPointStyle	connectionPointStyle;
 	private boolean				MoveAble;
-
 	private Color				fillColor	= Color.GREEN;
 	private Color				edgeColor	= Color.BLACK;
 	private int					edgeWidh	= 1;
@@ -92,11 +89,7 @@ public class ConectionPoint extends verilog.awt.Shape
 		this.connectionPointStyle = connectionPointStyle;
 	}
 
-	/*
-	 * public ConectionPoint(Point P) { point = P; //connectionPointStatus =
-	 * ConnectionPointStatus.Idle; shapeStatus = ShapeStatus.Idle;
-	 * connectionPointStyle = ConectionPointStyle.Circle; MoveAble = true; }
-	 */
+
 
 	public ConectionPoint(Point P, verilog.awt.Shape father)
 	{
@@ -107,18 +100,11 @@ public class ConectionPoint extends verilog.awt.Shape
 		// dataList.add(father);
 		MoveAble = true;
 		this.father = father;
-
-		/*
-		 * if (father instanceof Model) { Model new_name = (Model) father;
-		 * 
-		 * }
-		 */
+ 
 
 	}
 
-	/*
-	 * public void addData(Object data) { //dataList.add(data);; }
-	 */
+	 
 
 	public void paint(Graphics g)
 	{

@@ -15,13 +15,72 @@ class Section extends verilog.awt.ShapeList
 
 	public int		width				= 2;
 	private Point	prevMouseLocation	= new Point(0, 0);
+ 	    private int focusWidth=4;
+	    private Color lineColor = Color.BLACK;
+	    private Line fatherLine;
+	    /**
+	     * @return the width
+	     */
+	    public synchronized int getWidth() {
+	        return width;
+	    }
 
-	public Section(ConectionPoint P1, ConectionPoint P2)
+	    /**
+	     * @param width the width to set
+	     */
+	    public synchronized void setWidth(int width) {
+	        this.width = width;
+	    }
+
+	    /**
+	     * @return the focusWidth
+	     */
+	    public synchronized int getFocusWidth() {
+	        return focusWidth;
+	    }
+
+	    /**
+	     * @param focusWidth the focusWidth to set
+	     */
+	    public synchronized void setFocusWidth(int focusWidth) {
+	        this.focusWidth = focusWidth;
+	    }
+
+	    /**
+	     * @return the lineColor
+	     */
+	    public synchronized Color getLineColor() {
+	        return lineColor;
+	    }
+
+	    /**
+	     * @param lineColor the lineColor to set
+	     */
+	    public synchronized void setLineColor(Color lineColor) {
+	        this.lineColor = lineColor;
+	    }
+
+	    /**
+	     * @return the fatherLine
+	     */
+	    public synchronized Line getFatherLine() {
+	        return fatherLine;
+	    }
+
+	    /**
+	     * @param fatherLine the fatherLine to set
+	     */
+	    public synchronized void setFatherLine(Line fatherLine) {
+	        this.fatherLine = fatherLine;
+	    }
+	
+	public Section(ConectionPoint P1, ConectionPoint P2,Line fatherLine)
 	{
 		add(P1);
 		add(P2);
 
 		shapeStatus = ShapeStatus.Idle;
+		this.fatherLine =  fatherLine;
 
 	}
 
@@ -54,14 +113,18 @@ class Section extends verilog.awt.ShapeList
 		P2.paint(g);
 		Line2D line2d = new Line2D.Float(P1.getPoint(), P2.getPoint());
 		float[] dash2 = { 1f, 1f };
-		BasicStroke bs2 = new BasicStroke(width);// (2, BasicStroke.JOIN_ROUND,
-													// BasicStroke.JOIN_ROUND,
-													// 1.0f, dash2,15f);
-		ga.setColor(Color.RED);
+		int w;
+		if (fatherLine.isFocus())
+		    w = focusWidth;
+		else
+		    w = width;
+		BasicStroke bs2 = new BasicStroke(w);// (2, BasicStroke.JOIN_ROUND,
+		ga.setColor(lineColor);
+		// BasicStroke.JOIN_ROUND,
+
 		// BasicStroke ff=new BasicStroke(
 		ga.setStroke(bs2);
 		ga.draw(line2d);
-		// ga.drawString ("intersects = " , P1.x, P1.y);
 	}
 
 	public boolean inLine(double x0, double y0)
@@ -102,6 +165,7 @@ class Section extends verilog.awt.ShapeList
 				prevMouseLocation.x = event.getPoint().x;
 				prevMouseLocation.y = event.getPoint().y;
 				event.addAffectedShade(this);
+				
 				return true;
 			}
 
@@ -174,22 +238,18 @@ class Section extends verilog.awt.ShapeList
 		return b1 || b2 || b3;
 	}
 
-	@Override
-	void move(double deltaX, double deltaY)
-	{
-		// TODO Auto-generated method stub
-
-	}
+ 
 }
 
 public class Line extends verilog.awt.ShapeList
 {
 	private Section	curSection;
-
-	Line()
+	private Model model;
+	Line(Model model )
 	{
 		// sectionList.add(new Section(null,null));
-		shapes.add(new Section(null, null));
+		shapes.add(new Section(null, null,this));
+	 	this.model = model;
 	}
 
 	/*
@@ -211,7 +271,7 @@ public class Line extends verilog.awt.ShapeList
 		{
 			ConectionPoint p1 = section.getP2();
 			ConectionPoint p2 = new ConectionPoint(p, this);// ,sectionList.get(sectionList.size()-1));
-			shapes.add(new Section(p1, p2));
+			shapes.add(new Section(p1, p2,this));
 			// p1.addData(section);
 			// p2.addData(section);
 
@@ -233,7 +293,7 @@ public class Line extends verilog.awt.ShapeList
 		{
 			ConectionPoint p1 = section.getP2();
 			ConectionPoint p2 = p;
-			shapes.add(new Section(p1, p2));
+			shapes.add(new Section(p1, p2,this));
 			// p2.setFather(section);
 		}
 
@@ -269,6 +329,8 @@ public class Line extends verilog.awt.ShapeList
 				// lineStatus = LineStatus.Line_Move;
 				shapeStatus = ShapeStatus.Move;
 				event.addAffectedShade(this);
+				model.getFocusList().add(this);
+				model.shapeList.setCurShape(this);
 				return true;
 			}
 		}
@@ -295,11 +357,6 @@ public class Line extends verilog.awt.ShapeList
 
 	}
 
-	@Override
-	void move(double deltaX, double deltaY)
-	{
-		// TODO Auto-generated method stub
-
-	}
+ 
 
 }

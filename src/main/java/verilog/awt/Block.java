@@ -1,72 +1,11 @@
 package verilog.awt;
 
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.border.BevelBorder;
 
-class BlockCopy implements ActionListener {
-
-	Block block;
-	BlockCopy (Block block)
-	{
-		this.block = block;
-	}
-	public void actionPerformed(ActionEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
-}
-
-class BlockPaste implements ActionListener {
-
-	Block block;
-	BlockPaste (Block block)
-	{
-		this.block = block;
-	}
-	public void actionPerformed(ActionEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
-}
-
-class BlockCut implements ActionListener {
-
-	Block block;
-	BlockCut (Block block)
-	{
-		this.block = block;
-	}
-	public void actionPerformed(ActionEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
-}
-
-class BlockDelete implements ActionListener {
-
-	Block block;
-	BlockDelete (Block block)
-	{
-		this.block = block;
-	}
-	public void actionPerformed(ActionEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
-}
 
 public class Block extends Polygon{
     
@@ -129,9 +68,8 @@ public class Block extends Polygon{
 		
 	}
  
-	@Override
-	public JPopupMenu getPopupMenu( )
-	{
+	 @Override
+	    public JPopupMenu getPopupMenu() {
 		JMenuItem mi;
 
 		JPopupMenu popup = new JPopupMenu("Edit");
@@ -139,31 +77,38 @@ public class Block extends Polygon{
 		mi = new JMenuItem(verilogGui.getString("menu_copy"));
 		mi.addActionListener(new BlockCopy(this));
 		popup.add(mi);
-		
-		mi = new JMenuItem(verilogGui.getString("menu_paste"));
-		mi.addActionListener(new BlockPaste(this));
-		popup.add(mi);
-		
+
 		mi = new JMenuItem(verilogGui.getString("menu_cut"));
 		mi.addActionListener(new BlockCut(this));
 		popup.add(mi);
-		
+
 		mi = new JMenuItem(verilogGui.getString("menu_delete"));
 		mi.addActionListener(new BlockDelete(this));
 		popup.add(mi);
-		
+
+		mi = new JMenuItem(verilogGui.getString("menu_cut"));
+		mi.addActionListener(new BlockCut(this));
+		popup.add(mi);
+
+		mi = new JMenuItem(verilogGui.getString("menu_delete"));
+		mi.addActionListener(new BlockDelete(this));
+		popup.add(mi);
 
 		popup.addSeparator();
 		mi = new JMenuItem(verilogGui.getString("menu_properties"));
 		mi.addActionListener(new BlockDelete(this));
 		popup.add(mi);
-	
+
 		popup.setBorderPainted(true);
 		popup.setBorder(new BevelBorder(BevelBorder.RAISED));
-		
+
+		popup.setBorderPainted(true);
+		popup.setBorder(new BevelBorder(BevelBorder.RAISED));
+
 		return popup;
 
-	}
+	    }
+
 
 
  

@@ -26,42 +26,35 @@ public class ShapeList extends verilog.awt.Shape{
 
     private Shape topShape = null;
     
-    public void mouseDragged(Point e) {
+	public void mouseDragged(Point e)
+	{
 
-	if (curShape != null) {
-	    curShape.mouseDragged(e);
+		if (curShape != null)
+		{
+			curShape.mouseDragged(e);
+		}
 	}
-    }
 
-    boolean mousePressed(Event event) {
-	if (topShape != null) {
+	boolean mousePressed(Event event)
+	{
+		if (topShape != null)
+		{
+			if (topShape.mousePressed(event))
+			{
+				curShape = topShape;
+				return true;
+			}
 
-	   /* topShape.mousePressed(event);
-	    if (topShape.getShapeStatus() == ShapeStatus.Move) {
-		curShape = topShape;
-		return true;
-	    }*/
-
-	    if (topShape.mousePressed(event)) {
-		curShape = topShape;
-		return true;
-	    }
-	     
-	}
-	for (final Shape r : shapes) {
-	    
-	    r.mousePressed(event) ;
-	   /* if (   r.getShapeStatus() == ShapeStatus.Move) {
-		curShape = r;
-		topShape = r;
-		return true;
-	    }*/
-  
-	     if (r.mousePressed(event)) {
-		curShape = r;
-		topShape = r;
-		return true;
-	    }
+		}
+		for (final Shape r : shapes)
+		{
+			r.mousePressed(event);
+			if (r.mousePressed(event))
+			{
+				curShape = r;
+				topShape = r;
+				return true;
+			}
 	}
 	return false;
 
@@ -71,11 +64,16 @@ public class ShapeList extends verilog.awt.Shape{
 	shapes.add(shape);
     }
 
-    public void paint(Graphics g) {
-	for (final Shape r : shapes) {
-	    r.paint(g);
+	public void paint(Graphics g)
+	{
+		for (final Shape r : shapes)
+		{
+			r.paint(g);
+		}
+		if ( topShape!=null)
+			topShape.paint(g);
+
 	}
-    }
 
     public boolean mouseReleased(Event event) {
 	// TODO Auto-generated method stub
@@ -86,28 +84,18 @@ public class ShapeList extends verilog.awt.Shape{
 
 	boolean b=false,b1;
 	for (final Shape shape : shapes) {
-	  //  if (b==false)
 		b1=shape.mouseReleased(event);
-	    //else 
-		//shape.mouseReleased(event);
 		b=b||b1;
 	    if (b1) {
 		shapeStatus = ShapeStatus.Idle;
 		curShape = null;
-		//event.addAffectedShade(this);
-		//return true;
 	    }
 
 	}
 	return b;
 
     }
-
-    @Override
-    void move(double deltaX, double deltaY) {
-	// TODO Auto-generated method stub
-	
-    }
+ 
 
     Shape getPoint(int n) {
 	// TODO Auto-generated method stub
