@@ -281,6 +281,13 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 		boolean b = false;
 		if (e.isPopupTrigger())
 		{
+			 
+			for (Shape shape : focusList)
+			{
+				shape.setFocus(false);
+			}
+			focusList.clear();
+			
 			for (Shape shape : shapeList.shapes)
 			{
 				if (shape instanceof Polygon)
@@ -375,6 +382,7 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 		boolean b = false;
 		if (e.isPopupTrigger())
 		{
+
 			for (Shape shape : shapeList.shapes)
 			{
 				if (shape instanceof Polygon)
@@ -384,6 +392,14 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 					{
 						pm.show(e.getComponent(), e.getX(), e.getY());
 						b = true;
+						// make just this object focus
+						for (Shape shape1 : focusList)
+						{
+							shape1.setFocus(false);
+						}
+						focusList.clear();
+						focusList.add(shape);
+						shape.setFocus(true);
 						break;
 					}
 				}

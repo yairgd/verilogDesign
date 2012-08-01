@@ -86,13 +86,6 @@ public class Block extends Polygon{
 		mi.addActionListener(new BlockDelete(this));
 		popup.add(mi);
 
-		mi = new JMenuItem(verilogGui.getString("menu_cut"));
-		mi.addActionListener(new BlockCut(this));
-		popup.add(mi);
-
-		mi = new JMenuItem(verilogGui.getString("menu_delete"));
-		mi.addActionListener(new BlockDelete(this));
-		popup.add(mi);
 
 		popup.addSeparator();
 		mi = new JMenuItem(verilogGui.getString("menu_properties"));
