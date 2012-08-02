@@ -5,6 +5,13 @@
 	<artifactId>t1</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+	<dependencies>
+		<dependency>
+			<groupId>net.sf.doolin</groupId>
+			<artifactId>javadocking</artifactId>
+			<version>1.4.2</version>
+		</dependency>
 
+	</dependencies>
 
 </project>

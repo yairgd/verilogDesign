@@ -1,5 +1,6 @@
 package verilog.awt;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
@@ -16,6 +17,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -24,6 +26,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.BevelBorder;
@@ -547,6 +550,18 @@ class Model extends JScrollPane implements MouseListener, MouseMotionListener, A
 
 		// Create and set up the popup menu.
 		// demo.createPopupMenu();
+		
+		JToolBar tbar = new JToolBar();
+	 
+	   tbar.add(new JButton(IconUtils.getGeneralIcon( "Open", 16 ) ));
+	    tbar.add(new JButton("B"));
+	    tbar.add(new JButton("C"));
+	 
+	 
+	    aWindow.getContentPane().setLayout(new BorderLayout());
+	    aWindow.getContentPane().add(tbar, BorderLayout.NORTH);
+	    tbar.setFloatable(true);
+	    
 		aWindow.setJMenuBar(mainFrame.createMenuBar());
 
 		aWindow.setBounds(200, 200, 500, 500);
