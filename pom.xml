@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>yair.test</groupId>
-	<artifactId>t1</artifactId>
+	<artifactId>verilogDesign</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<dependencies>
@@ -12,6 +12,22 @@
 			<version>1.4.2</version>
 		</dependency>
 
+
+		<dependency>
+			<groupId>org.dockingframes</groupId>
+			<artifactId>docking-frames-common</artifactId>
+			<version>1.1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.dockingframes</groupId>
+			<artifactId>docking-frames-demo-tutorial</artifactId>
+			<version>1.0.8</version>
+		</dependency>
+
 	</dependencies>
+
 
 </project>

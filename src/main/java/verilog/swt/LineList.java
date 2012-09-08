@@ -1,4 +1,4 @@
-package verilog.gui;
+package verilog.swt;
 
 import java.util.ArrayList;
 
@@ -14,10 +14,10 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Shell;
 
-import verilog.gui.BlockIORect.Status;
-import verilog.gui.BlockIORectListener.IOStatus;
-import verilog.gui.LineConnection.ConectionPoint;
-import verilog.gui.LineListener.LineStatus;
+import verilog.swt.BlockIORect.Status;
+import verilog.swt.BlockIORectListener.IOStatus;
+import verilog.swt.LineConnection.ConectionPoint;
+import verilog.swt.LineListener.LineStatus;
 
 public class LineList {
 

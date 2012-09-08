@@ -1,7 +1,7 @@
 /**
  * 
  */
-package verilog.gui;
+package verilog.swt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +36,8 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import verilog.gui.LineConnection.ConectionPoint;
-import verilog.gui.LineListener.LineStatus;
+import verilog.swt.LineConnection.ConectionPoint;
+import verilog.swt.LineListener.LineStatus;
 
 /**
  * @author yair

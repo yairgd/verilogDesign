@@ -1,4 +1,4 @@
-package verilog.gui;
+package verilog.swt;
 
 
 /*
@@ -9,13 +9,10 @@ package verilog.gui;
  */
 
  
-import java.awt.Color;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;

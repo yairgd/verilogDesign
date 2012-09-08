@@ -1,4 +1,4 @@
-package verilog.awt;
+package verilog.frame;
 
  
 
@@ -15,6 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
+
+import verilog.awt.Model;
+import verilog.awt.WindowUtilities;
 
 import com.javadocking.DockingManager;
 import com.javadocking.dock.FloatDock;

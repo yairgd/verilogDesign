@@ -9,7 +9,7 @@ import javax.swing.border.BevelBorder;
 
 public class Block extends Polygon{
     
-    Block(Model model)
+    Block(DrawingPane1 model)
 	{
 		super(model);
 		// TODO Auto-generated constructor stub

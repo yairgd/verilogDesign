@@ -1,4 +1,4 @@
-package verilog.gui;
+package verilog.swt;
 
 import org.eclipse.swt.graphics.Rectangle;
 
@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import verilog.gui.LineListener.LineStatus;
+import verilog.swt.LineListener.LineStatus;
 
 //import verilog.gui.LineListener.LineStatus;
 

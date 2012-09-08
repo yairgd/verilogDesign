@@ -1,4 +1,4 @@
-package verilog.gui;
+package verilog.swt;
 
 import java.text.MessageFormat;
 import java.util.MissingResourceException;

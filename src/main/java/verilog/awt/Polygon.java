@@ -83,15 +83,15 @@ public abstract class Polygon extends Shape
 
 	protected static ResourceBundle		verilogGui			= ResourceBundle.getBundle("verilog_gui");
 
-	protected Model						model;
+	protected DrawingPane1						model;
 
 	private Color						fillColor			= Color.GREEN;
 	private Color						edgeColor			= Color.BLACK;
 	private int							edgeWidh			= 2;
 
-	Polygon(Model model)
+	Polygon(DrawingPane1 drawingPane1)
 	{
-		this.model = model;
+		this.model = drawingPane1;
 	}
 
 	/**
@@ -128,6 +128,28 @@ public abstract class Polygon extends Shape
 		this.polygonLineType = polygonLineType;
 	}
 
+	public int getMinX()
+	{
+	    int xx = 1000000000;
+	    for (int i=0;i<polygon.npoints;i++)
+	    {
+		if (polygon.xpoints[i]<xx)
+		    xx=polygon.xpoints[i]; 
+	    }
+	    return xx;
+	    
+	}
+	public int getMinY()
+	{
+	    int xx = 1000000000;
+	    for (int i=0;i<polygon.npoints;i++)
+	    {
+		if (polygon.ypoints[i]<xx)
+		    xx=polygon.ypoints[i];
+	    }
+	    return xx;
+	    
+	}
 	public void paint(Graphics g)
 	{
 		Graphics2D ga = (Graphics2D) g;
