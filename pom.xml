@@ -5,6 +5,25 @@
 	<artifactId>verilogDesign</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+
+	<build>
+		<sourceDirectory>.</sourceDirectory>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							src/main/java/verilog/swt/*.java
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>net.sf.doolin</groupId>
@@ -25,6 +44,18 @@
 			<groupId>org.dockingframes</groupId>
 			<artifactId>docking-frames-demo-tutorial</artifactId>
 			<version>1.0.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>swt</artifactId>
+			<version>3.72</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>swt.linux</artifactId>
+			<version>3.72</version>
 		</dependency>
 
 	</dependencies>
