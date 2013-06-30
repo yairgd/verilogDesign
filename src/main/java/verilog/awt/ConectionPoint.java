@@ -9,14 +9,41 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
 public class ConectionPoint extends verilog.awt.Shape
-{ 
+{
+	enum ConectionTyp
+	{
+		Input, Output, InOut
+	};
+	enum ConectionPointStyle
+	{
+		Circle, Visile
+	};
 
-	public int					r			= 6;
+	public int					r				= 6;
 	private ConectionPointStyle	connectionPointStyle;
 	private boolean				MoveAble;
-	private Color				fillColor	= Color.GREEN;
-	private Color				edgeColor	= Color.BLACK;
-	private int					edgeWidh	= 1;
+	private Color				fillColor		= Color.GREEN;
+	private Color				edgeColor		= Color.BLACK;
+	private int					edgeWidh		= 1;
+	private PortName			protName		= null;
+	private ConectionTyp		conectionTyp	= ConectionTyp.InOut;
+
+	/**
+	 * @return the conectionTyp
+	 */
+	public ConectionTyp getConectionTyp()
+	{
+		return conectionTyp;
+	}
+
+	/**
+	 * @param conectionTyp
+	 *            the conectionTyp to set
+	 */
+	public void setConectionTyp(ConectionTyp conectionTyp)
+	{
+		this.conectionTyp = conectionTyp;
+	}
 
 	/**
 	 * @return the moveAble
@@ -52,10 +79,7 @@ public class ConectionPoint extends verilog.awt.Shape
 	/*
 	 * enum ConnectionPointStatus { Idle, Move };
 	 */
-	enum ConectionPointStyle
-	{
-		Circle, Visile
-	};
+
 
 	public Point	point;
 
@@ -89,8 +113,6 @@ public class ConectionPoint extends verilog.awt.Shape
 		this.connectionPointStyle = connectionPointStyle;
 	}
 
-
-
 	public ConectionPoint(Point P, verilog.awt.Shape father)
 	{
 		point = P;
@@ -100,11 +122,8 @@ public class ConectionPoint extends verilog.awt.Shape
 		// dataList.add(father);
 		MoveAble = true;
 		this.father = father;
- 
 
 	}
-
-	 
 
 	public void paint(Graphics g)
 	{
@@ -117,12 +136,12 @@ public class ConectionPoint extends verilog.awt.Shape
 
 		if (connectionPointStyle == ConectionPointStyle.Circle)
 		{
-
 			g.setColor(edgeColor);
 			Shape circ1 = new Ellipse2D.Float(point.x - r / 2, point.y - r / 2, r, r);
 			ga.draw(circ1);
 		}
-		// ga.drawString ("intersects = " , P1.x, P1.y);
+		if (!isMoveAble())
+			ga.drawString(protName.getName(), point.x, point.y);
 	}
 
 	public boolean inSidePoint1(double x, double y)
@@ -188,6 +207,23 @@ public class ConectionPoint extends verilog.awt.Shape
 		// connectionPointStatus = ConnectionPointStatus.Idle;
 		shapeStatus = ShapeStatus.Idle;
 		return b;
+	}
+
+	/**
+	 * @return the protName
+	 */
+	public PortName getProtName()
+	{
+		return protName;
+	}
+
+	/**
+	 * @param protName
+	 *            the protName to set
+	 */
+	public void setProtName(PortName protName)
+	{
+		this.protName = protName;
 	}
 
 }

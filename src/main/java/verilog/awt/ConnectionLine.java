@@ -7,13 +7,13 @@ public class ConnectionLine extends verilog.awt.ShapeList
 	private int				width	= 5;
 	private int				r		= 6;
 
-	public ConnectionLine(Point p1, Point p2)
+	public ConnectionLine(Point p1, Point p2,String name)
 	{
-		init(p1,p2);
+		init(p1,p2,name);
 
 	}
 
-	public void init(Point p1,Point p2)
+	public void init(Point p1,Point p2,String name)
 	{
 		ConectionPoint cp;
 		double s = Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
@@ -28,10 +28,11 @@ public class ConnectionLine extends verilog.awt.ShapeList
 
 				cp = new ConectionPoint(new Point(x, y), this);
 				cp.setMoveAble(false);
+				cp.setProtName(new PortName(name+i, 0));
 				add(cp);
 			}
 		}
-		else
+		else // verical slope (slope ->Inf)
 		{
 			a = 0;
 			for (int i = 0; i <= n; i++)
@@ -40,6 +41,7 @@ public class ConnectionLine extends verilog.awt.ShapeList
 				int x = (int) (-a * (Math.min(p1.y, p2.y) - y) + p1.x);
 				cp = new ConectionPoint(new Point(x, y), this);
 				cp.setMoveAble(false);
+				cp.setProtName(new PortName(name+i, 0));
 				add(cp);
 
 			}

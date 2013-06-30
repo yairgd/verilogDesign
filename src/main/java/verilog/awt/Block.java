@@ -55,9 +55,9 @@ public class Block extends Polygon{
 		Point p2 = new Point(locaion.x + size.x, locaion.y);
 		Point p3 = new Point(locaion.x + size.x, locaion.y + size.y);
 		Point p4 = new Point(locaion.x, locaion.y + size.y);
-		ConnectionLine cl1 = new ConnectionLine(p1, p4);
+		ConnectionLine cl1 = new ConnectionLine(p1, p4,"In");
 		listConnectionLine.add(cl1);
-		ConnectionLine cl2 = new ConnectionLine(p3, p2);
+		ConnectionLine cl2 = new ConnectionLine(p3, p2,"Out");
 		listConnectionLine.add(cl2);
 
 		polygon.addPoint(p1.x, p1.y);
