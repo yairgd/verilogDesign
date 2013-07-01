@@ -45,18 +45,13 @@
 			<artifactId>docking-frames-demo-tutorial</artifactId>
 			<version>1.0.8</version>
 		</dependency>
+ 
 
 		<dependency>
-			<groupId>org.eclipse</groupId>
-			<artifactId>swt</artifactId>
-			<version>3.72</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.eclipse</groupId>
-			<artifactId>swt.linux</artifactId>
-			<version>3.72</version>
-		</dependency>
+	<groupId>org.eclipse.swt.gtk.linux</groupId>
+	<artifactId>x86_64</artifactId>
+	<version>3.3.0-v3346</version>
+</dependency>
 
 	</dependencies>
 
